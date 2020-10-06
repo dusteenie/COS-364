@@ -52,6 +52,11 @@ namespace simQuickSort1
 		static void Main(string[] args)
 		{
 			/*
+				TO-DO: Calculate average number of runs per S.
+				       Graph output using https://itools.subhashbose.com/grapher/index.php
+			*/
+			
+			/*
 			 Sets up an array holding the above values from 10 to 500000 as follows:
 				int [ ] lim = { 10, 50, 100, 500, 1000, 5000, 10000, 25000, 50000, 75000, 100000, 200000, 300000, 400000, 500000};	
 			 Also declares arrays C and S
