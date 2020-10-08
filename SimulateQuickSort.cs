@@ -1,12 +1,12 @@
 using System;
 
-namespace simQuickSort1
+namespace simQuickSort
 {
-    class Program
+    class simQuickSort
 	{
 		private static Random rnd = new Random();
 		private static long[] S;
-		private static int[] C;
+		private static long[] C;
 		private static int numHits;
 
 
@@ -15,7 +15,6 @@ namespace simQuickSort1
 			if (low < high)
 			{
 				long pivotpoint;
-				numHits++; //ASK in class tomorrow
 				partition(low, high, out pivotpoint);
 				quicksort(low, pivotpoint - 1);
 				quicksort(pivotpoint + 1, high);
@@ -33,6 +32,7 @@ namespace simQuickSort1
 			{
 				if (S[i] < pivotitem)
 				{
+					numHits++;
 					j++;
 					long temp1 = S[i];
 					S[i] = S[j];
@@ -45,17 +45,13 @@ namespace simQuickSort1
 			S[low] = S[pivotpoint];
 			S[pivotpoint] = temp;
 
+
 		}
 
 
 
 		static void Main(string[] args)
 		{
-			/*
-				TO-DO: Calculate average number of runs per S.
-				       Graph output using https://itools.subhashbose.com/grapher/index.php
-			*/
-			
 			/*
 			 Sets up an array holding the above values from 10 to 500000 as follows:
 				int [ ] lim = { 10, 50, 100, 500, 1000, 5000, 10000, 25000, 50000, 75000, 100000, 200000, 300000, 400000, 500000};	
@@ -67,8 +63,7 @@ namespace simQuickSort1
 
 
 			// Formats the title for the output
-			Console.Write("SIMULATE QUICK SORT  -  PROJECT  -  COS 364\n" +
-				"---- ---- ---- ---- ---- ---- \n\n\n");
+			Console.Write("SIMULATE QUICK SORT  -  PROJECT OUTPUT  -  COS 364\n\n\n\n");
 
 
 
@@ -77,7 +72,7 @@ namespace simQuickSort1
 				// Sets S to be the size of the current number in lim
 				// Sets C to be of size 50
 				S = new long[lim[i]];
-				C = new int[50];
+				C = new long[50];
 				numHits = 0;
 
 				// Output text formatting
@@ -98,19 +93,19 @@ namespace simQuickSort1
 					C[j] = numHits;
 					numHits = 0;
 
+
 					/*
-						// debug
-
-
+					  	DEBUG - OUTPUTS SORTED S ARRAY
+					 
+						Console.WriteLine("");
 						for (int k = 0; k < S.Length; k++)
 						{
 							if (k % 10 == 0) { Console.Write("\n\t"); }
 							Console.Write(S[k] + " ");
 						}
-						Console.Write("\nSORTED\n\t");
+						Console.Write("\nSORTED ARRAY\n\t");
 						quicksort(0, S.Length - 1);
 
-						// debug
 						for (int k = 0; k < S.Length; k++)
 						{
 							if (k % 10 == 0) { Console.Write("\n\t"); }
@@ -126,13 +121,14 @@ namespace simQuickSort1
 
 
 				// Output text formatting
-				Console.Write("\tNUMBER OF RUNS FROM  1-50:\n---- ---- ---- ---- ---- ----\n\t");
-				for (int j = 0; j < C.Length; j++)
-				{
-					if (j % 10 == 0) { Console.Write("\n\t"); }
-					Console.Write(C[j] + " ");
-				}
-				Console.WriteLine("\n\n");
+				double average = 0;
+				long n = lim[i];
+				for (int j = 0; j < C.Length; j++) { average += C[j]; }
+				average = average / 50;
+				average = average / lim[i];
+				Console.WriteLine("\tN: " + n);
+				Console.WriteLine("\tAVERAGE NUMBER OF EXCHANGES: " + average);
+				Console.WriteLine("\tPOINT: \t(" + n + ", " + average + ")\n\n");
 
 
 			}
@@ -140,3 +136,4 @@ namespace simQuickSort1
 		}
 	}
 }
+
