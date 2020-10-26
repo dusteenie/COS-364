@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace GraphFloyd
 {
@@ -95,6 +96,7 @@ namespace GraphFloyd
             }
         }
 
+
         /*
          * Prints the number of vertices as well as the adjacency matrix.
          *
@@ -119,35 +121,78 @@ namespace GraphFloyd
          */
         public static void createGraph(StreamReader rdr)
         {
-            /* Data file: Line 1 has either a D or a U
-                          Line 2 has an integer representing the number of vertices
-                                then spaces then a comment
-                          Line 3 has a comment # List of edges
-                          all the other lines have the following charactristic:
-              Data file has format v1 v2 dist with just 1 space between
-              each due to fact that split works that way. If put two spaces
-              between v2 and dist, we get an error. 
-              The last line has -1's (n of them) each separated by one space
-              Put your dataset into the Debug folder of the Visual Studio directory
-              created for your project.
-              Set up command line argument for the dataset. Go to 
-              Project | Properties and then Debug and for Command Line Arguments
-              fill in the name of your data file.
-           */
             string line;
-            string[] s; // for split            
+            string[] s; // for split  
             int i, j;
 
             try
             {
                 // get the data from the file and put it into variables
+                int k = 0;
+                i = 0; j = 0;
+
+                using(rdr)
+                { 
+                    // parses through the data file
+                    while(rdr.EndOfStream == false) 
+                    {
+                        // Reads and splits the current line in the file
+                        line = rdr.ReadLine();
+                        s = line.Split(' ');
 
 
+                        //Ignores line 1
+                        if (k == 0) { if (s[0] == "D" || s[0] == "U") { continue; } k++; }
 
+                        // Converts string to int, and initalizes numVertex to the given number of vertices
+                        else if (k == 1)
+                        { numVertex = Int32.Parse(s[0]); k++; continue; }
 
+                        //Ignores line 3
+                        else if (k == 2) { k++; continue;}
 
+                        else
+                        {
+                            // Checks to see if the next line is the last line. If so, sets j to length n
+                            if (rdr.Peek() == -1) { j = s.Length; continue; }
 
+                            // Counts total number of rows
+                            else { i++; continue; }
+                        }
+                    }
 
+                    // Declares adjacency array length
+                    adjacency = new int[i, j];
+
+                    // resets rdr's stream back to the top of the file
+                    rdr.DiscardBufferedData();
+                    rdr.BaseStream.Seek(0, System.IO.SeekOrigin.Begin);
+                    i = 0;  j = 0;  k = 0; // resets i,j,k
+
+                    // parses through the data file
+                    while (rdr.EndOfStream == false)
+                    {
+                        // Reads and splits the current line in the file
+                        line = rdr.ReadLine();
+                        s = line.Split(' ');
+
+                        // ignores the first 3 lines
+                        while (k < 3) { k++; continue; }
+
+                        // checks to make sure we are not on the last line of the file
+                        if (rdr.Peek() != -1)
+                        {
+                            // fills the adjacency array
+                            for (j = 0; j < adjacency.GetLength(1); j++)
+                            {
+                                adjacency[i, j] = Int32.Parse(s[j]);
+                            }
+                            
+                            i++; continue; // goes to the next line
+                        }
+                    }
+
+                }
                 rdr.Close();
                 return;
             } // end try
@@ -206,4 +251,3 @@ namespace GraphFloyd
         }
     }
 }
-
