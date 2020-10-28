@@ -4,24 +4,26 @@ using System.IO;
 namespace GraphFloyd
 {
     /*
-     * TO-Do: Explain this program
+     * GraphFloyd is a program which simulates the Floyd Algorithem. 
      * 
      * @author Dr. Gail Lange
      * @author Sarah Stepak
      * @see https://drive.google.com/drive/u/2/folders/1kL54gaSDDU5xCsQjjwcAYdrp8pAQZX0d
      *     The following link contains the data for the program
-     * @since   10/22/2020
+     * @since   10/28/2020
      */
     class GraphFloyd
     {
         public const int INFINITY = 30000;
         public static int[,] adjacency;         // The adjacency matrix
         public static int numVertex;             // Number of vertices
-        private static int[,] D,P;
+        private static int[,] D;
+        private static int[,] P;
 
 
         /*
-         * TO-DO    Explain Floyd()
+         * Floyd() is a method that parses through arrays D and P to simulate
+         * the Floyd algorithem
          * 
          * @author  Sarah Stepak
          * @return  void
@@ -34,17 +36,17 @@ namespace GraphFloyd
              * @Var D   int[,]    D[i,j] contains the length of the shortest path
              * @Var P   int[,]    P[i,j] contains the highest index on the shortest path from vi to vj; -1 otherwise.
              *          
-             *          Both D and P are the same length as the adjacency array. 
+             *                    Both D and P are the same length as the adjacency array. 
              *          
              * @Var len   int     Contains the length of the adjacency array
              */
             int[,] D = new int[adjacency.GetLength(0), adjacency.GetLength(1)];
             int[,] P = new int[adjacency.GetLength(0), adjacency.GetLength(1)];
-            int len = adjacency.GetLength(0);
 
-            for(int r = 0; r < len; r++) 
+            // Initalizes D and P
+            for (int r = 0; r < adjacency.GetLength(0); r++) 
             {
-                for(int c =0; c < len; c++) 
+                for(int c = 0; c < adjacency.GetLength(1); c++) 
                 {
                     // Sets D's values equal to the the adjacency array
                     // initalizes P to -1
@@ -54,11 +56,11 @@ namespace GraphFloyd
             }
 
             // Floyd algorithem
-            for (int k = 0; k < len; k++) 
+            for (int k = 0; k < numVertex; k++) 
             {
-                for (int i = 0; i < len; i++) 
+                for (int i = 0; i < numVertex; i++) 
                 {
-                    for(int j = 0; j < len; j++)
+                    for(int j = 0; j < numVertex; j++)
                     {
                         D[i, j] = Math.Min(D[i, j], (D[i, k] + D[k, j]));  // Sets D[i,j] to the shortest path
                     }
@@ -104,16 +106,30 @@ namespace GraphFloyd
          * @return  void
          */
         public static void printGraph() 
-        { 
+        {
+            // Prints the adjacency array
+            for (int r = 0; r < adjacency.GetLength(0); r++) 
+            {
+                for(int c = 0; c < adjacency.GetLength(1); c++) 
+                {
+                    Console.Write(" "+ adjacency[r,c] + ",");
+                }
+                Console.Write("\n");
+            }
+
+            // Prints the number of verticies 
+            Console.WriteLine("Number of Verticies: " + numVertex);
+
         }
 
 
         /*
-         * TO-DO:   Explain createGraph()
+         * CreateGraph(param) is a method which parses through the datafile, and assigns
+         * appropiate values to global variables: adjacency[,] and numVertex.
          * 
          * @author  Dr. Gail Lange
          * @author  Sarah Stepak
-         * @param   rdr     StreamReader    //explain what it is
+         * @param   rdr     StreamReader    contains data from the file
          * @return  void
          * 
          * @see https://drive.google.com/drive/u/2/folders/13HRrYGaF3roY23DmgDKvrarMGzrW8lcA
@@ -138,15 +154,17 @@ namespace GraphFloyd
                     {
                         // Reads and splits the current line in the file
                         line = rdr.ReadLine();
-                        s = line.Split(' ');
+                        s = line.Split(' ');                        
 
 
                         //Ignores line 1
-                        if (k == 0) { if (s[0] == "D" || s[0] == "U") { continue; } k++; }
+                        if (s[0] == "D" || s[0] == "U") { k++; continue; } 
 
                         // Converts string to int, and initalizes numVertex to the given number of vertices
                         else if (k == 1)
-                        { numVertex = Int32.Parse(s[0]); k++; continue; }
+                        {  
+                            numVertex = Int32.Parse(s[0]);
+                            k++; continue; }
 
                         //Ignores line 3
                         else if (k == 2) { k++; continue;}
@@ -177,18 +195,21 @@ namespace GraphFloyd
                         s = line.Split(' ');
 
                         // ignores the first 3 lines
-                        while (k < 3) { k++; continue; }
-
-                        // checks to make sure we are not on the last line of the file
-                        if (rdr.Peek() != -1)
+                        if (k < 3) { k++; continue; }
+                        
+                        else
                         {
-                            // fills the adjacency array
-                            for (j = 0; j < adjacency.GetLength(1); j++)
+                            // checks to make sure we are not on the last line of the file
+                            if (rdr.Peek() != -1)
                             {
-                                adjacency[i, j] = Int32.Parse(s[j]);
+                                // fills the adjacency array
+                                for (j = 0; j < adjacency.GetLength(1); j++)
+                                {
+                                    adjacency[i, j] = Convert.ToInt32(s[j]);
+                                }
+
+                                i++; continue; // goes to the next line
                             }
-                            
-                            i++; continue; // goes to the next line
                         }
                     }
 
