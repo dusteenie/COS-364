@@ -107,7 +107,6 @@ namespace GraphFloyd
                 {
                     path(r, c);
                 }
-                Console.Write("\n");
             }
 
         }
@@ -127,8 +126,9 @@ namespace GraphFloyd
         {
             if (P[q, r] != -1)
             {
+                Console.Write("\nPath [" + q + ", " + r + "]\t");
                 path(q, P[q, r]);
-                Console.Write(" v" + P[q, r] + "  ");
+                Console.Write("v" + P[q, r] + " ");
                 path(P[q, r], r);
             }
 
