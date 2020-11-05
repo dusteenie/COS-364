@@ -8,7 +8,7 @@ namespace GraphFloyd
      * GraphFloyd is a program which simulates the Floyd Algorithem. 
      * 
      * @author Dr. Gail Lange
-     * @author Dusty Stepak
+     * @author Sarah Stepak
      * @since   11/05/2020
      */
     class GraphFloyd
@@ -24,7 +24,8 @@ namespace GraphFloyd
          * Floyd() is a method that parses through arrays D and P to simulate
          * the Floyd algorithem
          * 
-         * @author  Dusty Stepak
+         * @author  Dr. Gail Lange
+         * @author  Sarah Stepak
          * @return  void
          */
         public static void Floyd()
@@ -115,7 +116,7 @@ namespace GraphFloyd
          *      vertex on the shortest path from p to r. 
          *  P is kept as -1 otherwise.
          * 
-         * @author      Dusty Stepak
+         * @author      Sarah Stepak
          * @param q     int     Used as vertex
          * @param r     int     Used as vertex
          * @return      void
@@ -136,7 +137,7 @@ namespace GraphFloyd
         /*
          * Prints the number of vertices as well as the adjacency matrix.
          *
-         * @author  Dusty Stepak
+         * @author  Sarah Stepak
          * @return  void
          */
         public static void printGraph()
