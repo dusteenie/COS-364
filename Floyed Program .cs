@@ -9,7 +9,7 @@ namespace GraphFloyd
      * 
      * @author Dr. Gail Lange
      * @author Dusty Stepak
-     * @since   10/29/2020
+     * @since   11/05/2020
      */
     class GraphFloyd
     {
@@ -41,21 +41,19 @@ namespace GraphFloyd
              */
 
             // Gail added the following two lines
+            // initalizes D and P to be a square matrix of size numVertex
             D = new int[numVertex, numVertex];
             P = new int[numVertex, numVertex];
 
 
-            // The following initalizes D and P   
 
-            // P is initalized to -1
+            // P is initalized to -1 and D is initalized to the adjacency array
             for (int r = 0; r < numVertex; r++)
                 for (int c = 0; c < numVertex; c++)
+                {
                     P[r, c] = -1;
-
-            // Sets D to the adjacency array
-            for (int r = 0; r < numVertex; r++)
-                for (int c = 0; c < numVertex; c++)
                     D[r, c] = adjacency[r, c];
+                }
 
 
             // Floyd algorithem
@@ -88,8 +86,8 @@ namespace GraphFloyd
                 Console.Write("\n");
             }
 
-            // Outputs the inital P matrix
-            Console.WriteLine("\nInital P Matrix: ");
+            // Outputs the P matrix
+            Console.WriteLine("\nP Matrix: ");
             for (int r = 0; r < numVertex; r++)
             {
                 for (int c = 0; c < numVertex; c++)
@@ -99,8 +97,8 @@ namespace GraphFloyd
                 Console.Write("\n");
             }
 
-            // P matrix after path() 
-            Console.WriteLine("\nPath P Matrix: ");
+            // Calls path() for every value within the P matrix 
+            Console.Write("\nPath: ");
             for (int r = 0; r < numVertex; r++)
             {
                 for (int c = 0; c < numVertex; c++)
@@ -143,8 +141,8 @@ namespace GraphFloyd
          */
         public static void printGraph()
         {
-            // Prints the number of verticies 
-            Console.WriteLine("Number of Verticies: " + numVertex);
+            // Prints the number of Vertices 
+            Console.WriteLine("Number of Vertices: " + numVertex);
 
             // Prints the adjacency rray
             Console.WriteLine("\nThe adjacency array:");
