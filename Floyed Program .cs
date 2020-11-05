@@ -170,7 +170,7 @@ namespace GraphFloyd
          * appropiate values to global variables: adjacency[,] and numVertex.
          * 
          * @author  Dr. Gail Lange
-         * @author  Dusty Stepak
+         * @author  Sarah Stepak
          * @param   rdr     StreamReader    contains data from the file
          * @return  void
          */
