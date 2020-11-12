@@ -10,20 +10,44 @@ namespace umf.cos364
     class GraphPrim
     {
         public const int INFINITY = 30000;
-        public static int[][] adjacency;         // The adjacency matrix, also called W
-        public static int numVertex;             // Number of vertices		
+        public static int[,] adjacency;         // The adjacency matrix, also called W
+        public static int numVertex;             // Number of vertices
+
+        public static void Prim(int n) 
+        {
+            int vnear = n; int min; int edge;
+
+
+            Console.WriteLine("\n\n");
+            for (int i = n; i < numVertex- 1; i++)
+            {
+                min = INFINITY;
+                for (int j = 2; j < numVertex; j++)
+                {
+                    if (0 <= adjacency[i,j] && 
+                        0 < min && 
+                        adjacency[i, j] < min &&
+                        adjacency[i, j] > 0)
+                    {
+                        min = adjacency[i,j];
+                        vnear = j;
+
+
+                        if (min == INFINITY)
+                            Console.WriteLine("Min Val: oo   vnear: " + vnear);
+                        else
+                            Console.WriteLine("Min Val: " + min + "    vnear: " + vnear);
+                    }
+                }
+            }
+
+        }
 
         public static void createGraph(StreamReader rdr)
         {
             /* Data file has format v1 v2 dist with just 1 space between
               each due to fact that split works that way. If put two spaces
-              between v2 and dist, we get an error. I want to avoid using
-              regexes for speed of processing. Put your dataset into the Debug
-              folder of the Visual Studio directory created for your project.
-              Set up command line argument for the dataset. Go to 
-              Project | Properties and then Debug/netcoreapp3.1 and for Command Line Arguments
-              choose Project $\vert$ Properties and go to Debug and then fill in the the
-              section Application arguments the name of your data file.
+              between v2 and dist, we get an error. 
            */
             string line;
             string[] s; // for split
