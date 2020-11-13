@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,42 +7,100 @@ using System.IO;
 
 namespace umf.cos364
 {
+    /*
+    * GraphPrim is a program which simulates the Prim Algorithem. 
+    * 
+    * @author Dr. Gail Lange
+    * @author Sarah Stepak
+    * @since   11.12.2020
+    */
     class GraphPrim
     {
         public const int INFINITY = 30000;
-        public static int[,] adjacency;         // The adjacency matrix, also called W
-        public static int numVertex;             // Number of vertices
+        public static int[,] adjacency;         // The adjacency matrix
+        public static int numVertex;            // Number of vertices
 
+        /*
+         * Prim() is a method which parses through the adjacency array starting at vertex n; 
+         * It simulates the prim algorithem.
+         * 
+         * @author  Dr. Gail Lange
+         * @author  Sarah Stepak
+         * @param   int     n   Iteger value to mark the starting vertex
+         * @return  void
+         * @since   11.12.2020
+         * 
+         */
         public static void Prim(int n) 
         {
-            int vnear = n; int min; int edge;
 
+            // vnear is the vertex
+            // nearest[vnear] is a vertex subscript
+            // min is the minimal distance between
+            int min; int vnear = n;
+
+            //Declares 1D global arrays distance and nearest, to be an array of size numVertex
+            int[] distance;
+            int[] nearest;            
+            distance = new int[numVertex]; 
+            nearest = new int[numVertex];
+
+            // Initializes arrays distance and nearest at v1 to be the nearest vertex and 
+            // initializes the distance from the point to be the weight on the edge to v1.
+            for (int i = 0; i < numVertex; i++)
+            {
+                distance[i] = adjacency[n,i];
+                nearest[i] = n;
+            }
 
             Console.WriteLine("\n\n");
-            for (int i = n; i < numVertex- 1; i++)
+
+            for (int i = n; i <= numVertex - 1; i++)
             {
-                min = INFINITY;
-                for (int j = 2; j < numVertex; j++)
+                min = INFINITY; //resets min to oo
+                for (int j = 1; j < numVertex; j++)
                 {
-                    if (0 <= adjacency[i,j] && 
-                        0 < min && 
-                        adjacency[i, j] < min &&
-                        adjacency[i, j] > 0)
+                    // Sets the vertex and distance to be the shortest path
+                    if (0 <= distance[j] && distance[j] < min)
                     {
-                        min = adjacency[i,j];
+                        min = distance[j];
                         vnear = j;
 
-
-                        if (min == INFINITY)
-                            Console.WriteLine("Min Val: oo   vnear: " + vnear);
-                        else
-                            Console.WriteLine("Min Val: " + min + "    vnear: " + vnear);
                     }
                 }
+
+                // writes the subscripts of the vertices as well as the edge added to the MST
+                Console.WriteLine("vertex: " + vnear + "\tvertex subscript added to the MST: " + nearest[vnear]);
+
+
+                // Sets distance[vnear] to -1 so vnear does not get readded to the MST
+                distance[vnear] = -1;
+
+                // Updates distance and nearest arrays to reflect the addition of vertex with subscript vnear to the MST
+                for (int k = 1; k < numVertex; k++)
+                {
+                    if (adjacency[k, vnear] < distance[k])
+                    {
+                        distance[k] = adjacency[k, vnear];
+                        nearest[k] = vnear;
+                    }
+                }
+
+
             }
 
         }
 
+        /*
+         * CreateGraph(param) is a method which parses through the datafile, and assigns
+         * appropiate values to global variables: adjacency[,] and numVertex.
+         * 
+         * @author  Dr. Gail Lange
+         * @author  Sarah Stepak
+         * @param   rdr     StreamReader    contains data from the file
+         * @return  void
+         * @since   11.05.2020
+         */
         public static void createGraph(StreamReader rdr)
         {
             /* Data file has format v1 v2 dist with just 1 space between
@@ -95,7 +153,9 @@ namespace umf.cos364
                             {
                                 int x, y, result;
                                 x = Int32.Parse(s[0]); y = Int32.Parse(s[1]); result = Int32.Parse(s[2]);
-                                adjacency[x, y] = result;
+                                adjacency[x, y] = result; 
+                                adjacency[y, x] = result; // Makes the matrix symmetric
+
                                 continue;
                             }
                         }
@@ -117,13 +177,16 @@ namespace umf.cos364
                 Console.WriteLine("Some I/O problem", e.ToString());
             }
 
-        } // end CreateGraph	
+        } 
+
+
 
         /*
          * Prints the number of vertices as well as the adjacency matrix.
          *
          * @author  Sarah Stepak
          * @return  void
+         * @since   11.05.2020
          */
         public static void printGraph()
         {
@@ -150,7 +213,13 @@ namespace umf.cos364
         }
 
 
-
+        /*
+         * Main method.
+         * 
+         * @author  Dr. Gail Lange
+         * @param   args[0]     Contains the file name for the dataset
+         * @return  void
+         */
         static void Main(string[] args)
         {
             // args[0] is the first command line argument you supply.            
