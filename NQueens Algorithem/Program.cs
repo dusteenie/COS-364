@@ -29,7 +29,7 @@ namespace NQueens
          * @author  Sarah Stepak
          * @param   int     i    holds the current position in col
          * @return  void
-         * @since   11/19/2020
+         * @since   11/30/2020
          */
         static void playQueens(int i) 
         {
@@ -47,23 +47,38 @@ namespace NQueens
                         expand(u)
              */
 
-            if (promising(i) == true)
+            for (int j = 0; j < n; j++) // for each child u of v
             {
-                foreach (int item in col)
+                if (promising(i)) // if promising(u)
                 {
-                    Console.Write("  " + col[item]);
-                    Console.Write("\n");
+                    // if(there is a solution at u)
+                    if (i + 1 == n) { 
+                        numSolutions++; // write
+                    }
+                }
+                else {
+                    playQueens(i + 1); //expand(u)
                 }
             }
 
-            else 
-            {
-                for (int j = 1; j<=n; j++) 
-                {
-                    col[i + 1] = j;
-                    playQueens(i + 1);
+
+            /*
+             * PREVIOUS SOLUTION:
+             *
+
+            int j;
+            if (promising(i)) {
+                if (i+1 == n) {
+                    numSolutions++;
+                }
+                else {
+                    for (j = 0; j < n; j++) {
+                        col[(i+1)] = j;
+                        playQueens(i + 1);
+                    }
                 }
             }
+            */
         }
 
         /*
@@ -74,23 +89,19 @@ namespace NQueens
          * @param   int     i   holds the current position in col
          * @return  Boolean     returns true if a position can have a queen placed
          *                      false otherwise.
-         * @since   11/19/2020
+         * @since   11/30/2020
          */
         static Boolean promising(int i) 
         {
-            int k = 1;
-            Boolean switchVals = true;
-            while(k < i && switchVals == true) 
+            for(int k = 0; k < i; k++)
             {
                 if (col[i] == col[k]  || 
-                    Math.Abs(col[i] - col[k]) == Math.Abs(i - k)) 
+                    (Math.Abs(col[i] - col[k])) == Math.Abs(i - k)) 
                 {
-                    switchVals = false; // Sets switchVals to false
-                    break; //Breaks out of loop                   
+                    return false; //Breaks out of loop                   
                 }
-                k++;
             }
-            return switchVals;
+            return true;
         }
 
 
