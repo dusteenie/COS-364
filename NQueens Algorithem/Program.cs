@@ -6,7 +6,7 @@ namespace NQueens
     public class NQueens
     {
 
-        /*
+        /*0
          * NQueens is a program which takes an n by n matrix, 
          * and finds where to place n queens on the matrix.
          * Outputs the total number of solutions 
@@ -49,15 +49,21 @@ namespace NQueens
 
             for (int j = 0; j < n; j++) // for each child u of v
             {
-                if (promising(i)) // if promising(u)
+                Console.WriteLine(i);
+                //assigns the i+1 value
+                col[i + 1] = j;
+
+                if (promising(i+1)) // if promising(u)
                 {
                     // if(there is a solution at u)
-                    if (i + 1 == n) { 
-                        numSolutions++; // write
+                    if (i + 1 == n-1) { 
+                        numSolutions++; 
+                        foreach (int item in col) { wtr.Write( item + " "); }
+                        wtr.WriteLine(""); // write the entire row
                     }
                 }
                 else {
-                    playQueens(i + 1); //expand(u)
+                    playQueens(i); //expand(u)
                 }
             }
 
@@ -149,3 +155,4 @@ namespace NQueens
 
     } // end class NQueens
 }
+
