@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 
 namespace NQueens
@@ -13,7 +13,7 @@ namespace NQueens
          * 
          * @author  Dr. Gail Lange
          * @author  Sarah Stepak
-         * @since   11/19/2020
+         * @since   12/2/2020
          */
 
 
@@ -29,43 +29,35 @@ namespace NQueens
          * @author  Sarah Stepak
          * @param   int     i    holds the current position in col
          * @return  void
-         * @since   11/30/2020
+         * @since   12/2/2020
          */
         static void playQueens(int i) 
         {
 
-            /*
-             * To-Do
-             * MODIFY SOLUTION TO FOLLOW THIS ALGORITHEM:
-             * 
-             node u (this is i)
-             for each child u of v (i in col)
-                if promising(u)
-                    if(there is a solution at u)
-                        write
-                    else
-                        expand(u)
-             */
-
             for (int j = 0; j < n; j++) // for each child u of v
             {
-                Console.WriteLine(i);
-                //assigns the i+1 value
+                // assigns the i+1 value to be j
                 col[i + 1] = j;
 
-                if (promising(i+1)) // if promising(u)
+                // Checks to see if there is a possible solution at i+1.
+                if (promising(i+1))
                 {
-                    // if(there is a solution at u)
+                    // Increments numSolutions when i+1 is equal to 
+                    // the total number of possible solutions (n)
                     if (i + 1 == n-1) { 
                         numSolutions++; 
+
+                        // formats the output in wtr
                         foreach (int item in col) { wtr.Write( item + " "); }
-                        wtr.WriteLine(""); // write the entire row
+                        wtr.WriteLine(""); 
+                    }
+                
+                    else {
+                        // recursive call to playQueens at i+1
+                        playQueens(i+1);
                     }
                 }
-                else {
-                    playQueens(i); //expand(u)
-                }
-            }
+            } // End method
 
 
             /*
@@ -73,17 +65,31 @@ namespace NQueens
              *
 
             int j;
+
+            // checks to see if there is a possible solution at i
             if (promising(i)) {
+
+                // Checks to see if i+1 is equal to the total number of solutions
                 if (i+1 == n) {
+
+                    //increments the total number of solutions up by one
                     numSolutions++;
+
+                    // formats the output in wtr
+                    foreach (int item in col) { wtr.Write( item + " "); }
+                    wtr.WriteLine(""); 
                 }
+
+
                 else {
+                    // assigns the i+1 value to be j
+                    // recursive call to playQueens at i+1
                     for (j = 0; j < n; j++) {
                         col[(i+1)] = j;
                         playQueens(i + 1);
                     }
-                }
-            }
+                } 
+            } // End method
             */
         }
 
@@ -99,14 +105,18 @@ namespace NQueens
          */
         static Boolean promising(int i) 
         {
+            // Parses through all values from 0 to i
             for(int k = 0; k < i; k++)
             {
+                // Finds any discreptency such that a queen cannot be placed at 
+                // the current position within col
                 if (col[i] == col[k]  || 
                     (Math.Abs(col[i] - col[k])) == Math.Abs(i - k)) 
                 {
                     return false; //Breaks out of loop                   
                 }
             }
+            // Function did not find any discreptencys, and returns true.
             return true;
         }
 
@@ -155,4 +165,3 @@ namespace NQueens
 
     } // end class NQueens
 }
-
