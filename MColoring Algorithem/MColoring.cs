@@ -5,6 +5,14 @@ namespace MColoring
 {
 	class MColor
 	{
+		/*
+		 * MColor is a program which simulates the M_Coloring Algorithem. 
+		 * 
+		 * @author Dr. Gail Lange
+		 * @author Sarah Stepak
+		 * @since   12/10/2020
+		 */
+
 		public const int INFINITY = 30000;
 		public static int[,] adjacency;         // The adjacency matrix
 		public static int numVertex;             // Number of vertices        
@@ -16,12 +24,11 @@ namespace MColoring
 
 
 		/*
-		* createGraph() 
+		* createGraph() parses through the user input file and initalizes/declares all the
+		*  neccesary globar variables.
 		* 
 		* @author  Dusty Stepak
 		* @param   rdr	 StreamReader	rdr contains the user input file. 
-		*                               This is then parsed through to create/initalize the 
-		*                               neccesary global variables.
 		* @return  void
 		* @since   12/09/2020
 		*/
@@ -113,12 +120,14 @@ namespace MColoring
 
 
 		/*
-         * m_coloring()
+         * m_coloring() is an algorithem which calculates m colours such that no 
+		 *  two adjacent vertices of the graph are colored with the same color.
+		 *  This specific algorithem follows the extend() algorithem.
          * 
          * @author  Dusty Stepak
          * @param   int     i    holds the current position in vcolor
          * @return  void
-         * @since   12/2/2020
+         * @since   12/09/2020
          */
 		public static void m_coloring(int i) 
 		{
@@ -139,7 +148,7 @@ namespace MColoring
 					}
 				}
 			}
-		} // End method
+		}
 
 
 		/*
@@ -149,16 +158,16 @@ namespace MColoring
 		* @param   int     i   holds the current position in vcolor
 		* @return  Boolean     returns true if xxxxxx
 		*                      false otherwise.
-		* @since   12/09/2020
+		* @since   12/10/2020
 		*/
 		static Boolean promising(int i) 
 		{
 			// Parses through all values from 0 to i
 			for (int k = 0; k < i; k++)
 			{
-				// 
-				Console.WriteLine(i + " " + k);
-				if (adjacency[i,k] == vcolor[k] &&
+				 
+				//Console.WriteLine(i + " " + k);
+				if (adjacency[i,k] == 1 &&
 					vcolor[i] == vcolor[k])
 				{
 					return false; //Breaks out of loop                   
@@ -168,7 +177,7 @@ namespace MColoring
 		}
 
 		/*
-		* printGraph() 
+		* printGraph() prints the current row of vcolor[] to the output file.
 		* 
 		* @author  Dusty Stepak
 		* @return  void
@@ -202,7 +211,7 @@ namespace MColoring
 
 				createGraph(rdr);
 
-				printGraph();
+				//printGraph();
 
 				numcolors = 4;
 				numsol = 0;
